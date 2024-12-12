@@ -1,5 +1,9 @@
 <?php
 session_start();
+// 清理瀏覽器快取 (避免上一頁問題)
+header("Cache-Control: no-cache, no-store, must-revalidate"); 
+header("Pragma: no-cache"); 
+header("Expires: 0"); 
 ?>
 
 <!DOCTYPE html>
