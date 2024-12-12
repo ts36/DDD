@@ -1,17 +1,24 @@
-<!-- cart_process.php -->
 <?php
-include 'database.php';
+// 啟用 Session
 session_start();
-$user_id = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $product_id = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
+// 檢查是否登入
+if (!isset($_SESSION['id'])) {
+    echo "請先登入！";
+    exit();
+}
 
-    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)");
-    $stmt->execute([ 'user_id' => $user_id, 'product_id' => $product_id, 'quantity' => $quantity ]);
+// 資料庫連線
+include 'database.php';
 
-    echo "商品已加入購物車！";
+// 顯示購物車內容
+$user_id = $_SESSION['id'];
+
+$stmt = $conn->prepare("SELECT * FROM cart WHERE user_id = :user_id");
+$stmt->execute(['user_id' => $user_id]);
+$cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($cartItems as $item) {
+    echo "商品: " . $item['product_name'] . " - 數量: " . $item['quantity'] . "<br>";
 }
 ?>
-
