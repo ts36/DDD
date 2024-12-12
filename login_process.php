@@ -1,12 +1,9 @@
 <?php
-
-
-// 啟用 Session
-session_start();
-
 // 資料庫連線
 include 'database.php';
 
+// 啟用 Session
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
