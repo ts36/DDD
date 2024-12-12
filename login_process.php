@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $user['email'];
 
             // 成功跳轉到首頁 (無多餘空白)
-            hearder("Location: index.php");
+            header("Location: index.php");
             exit();
         } else {
             echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href='login.html';</script>";
