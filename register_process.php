@@ -3,11 +3,11 @@ include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
     $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
     // 檢查是否為空
-    if (empty($username)  || empty($password || empty($email))) {
+    if (empty($username) || empty($email) || empty($password)) {
         die("所有欄位都是必填的！");
     }
 
@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // 插入資料到資料庫
-    $stmt = $conn->prepare("INSERT INTO users (username, password, email) VALUES (:username, :email, :password)");
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
     if ($stmt->execute([
         'username' => $username,
-        'password' => $hashedPassword,
-        'email' => $email
+        'email' => $email,
+        'password' => $hashedPassword
     ])) {
         echo "註冊成功！請前往 <a href='login.html'>登入</a>";
     } else {
