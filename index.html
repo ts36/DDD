@@ -1,61 +1,110 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁</title>
+    <title>可愛甜點店</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff7f0;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background-color: #ffcad4;
+        }
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .card {
+            margin: 15px;
+            border: none;
+            border-radius: 15px;
+            background-color: #ffe4e1;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .btn-custom {
+            background-color: #ff6f61;
+            color: white;
+            border-radius: 25px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">甜點購物網站</h1>
-        <div class="text-end">
-            <?php
-            session_start();
-            if (isset($_SESSION['email'])) {
-                echo "<p>歡迎，" . htmlspecialchars($_SESSION['email']) . "！</p>";
-                echo "<a href='logout.php' class='btn btn-danger'>登出</a>";
-            } else {
-                echo "<a href='login.html' class='btn btn-primary'>登入</a> ";
-                echo "<a href='register.html' class='btn btn-secondary'>註冊</a>";
-            }
-            ?>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">🍰 可愛甜點店</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首頁</a></li>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['email'])) {
+                        echo "<li class='nav-item'><a class='nav-link'>歡迎，" . htmlspecialchars($_SESSION['email']) . "</a></li>";
+                        echo "<li class='nav-item'><a class='nav-link' href='logout.php'>登出</a></li>";
+                    } else {
+                        echo "<li class='nav-item'><a class='nav-link' href='login.html'>登入 / 註冊</a></li>";
+                    }
+                    ?>
+                    <li class="nav-item"><a class="nav-link" href="cart.html">購物車</a></li>
+                    <li class="nav-item"><a class="nav-link" href="orders.html">訂單記錄</a></li>
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <!-- 商品列表 -->
-        <h2 class="mt-4">熱銷商品</h2>
+    <div class="container mt-4">
+        <h1 class="text-center">🍓 精選甜點 🍓</h1>
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
-                    <img src="dessert1.jpg" class="card-img-top" alt="甜點1">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="草莓蛋糕">
                     <div class="card-body">
                         <h5 class="card-title">草莓蛋糕</h5>
-                        <p class="card-text">價格: $300</p>
+                        <p class="card-text">價格: $150</p>
                         <form action="cart_process.php" method="POST">
                             <input type="hidden" name="product_id" value="1">
                             <input type="number" name="quantity" value="1" min="1" class="form-control mb-2">
-                            <button type="submit" class="btn btn-success w-100">加入購物車</button>
+                            <button type="submit" class="btn btn-custom w-100">加入購物車</button>
                         </form>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="card">
-                    <img src="dessert2.jpg" class="card-img-top" alt="甜點2">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="巧克力布朗尼">
                     <div class="card-body">
-                        <h5 class="card-title">巧克力慕斯</h5>
-                        <p class="card-text">價格: $350</p>
+                        <h5 class="card-title">巧克力布朗尼</h5>
+                        <p class="card-text">價格: $120</p>
                         <form action="cart_process.php" method="POST">
                             <input type="hidden" name="product_id" value="2">
                             <input type="number" name="quantity" value="1" min="1" class="form-control mb-2">
-                            <button type="submit" class="btn btn-success w-100">加入購物車</button>
+                            <button type="submit" class="btn btn-custom w-100">加入購物車</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="檸檬塔">
+                    <div class="card-body">
+                        <h5 class="card-title">檸檬塔</h5>
+                        <p class="card-text">價格: $130</p>
+                        <form action="cart_process.php" method="POST">
+                            <input type="hidden" name="product_id" value="3">
+                            <input type="number" name="quantity" value="1" min="1" class="form-control mb-2">
+                            <button type="submit" class="btn btn-custom w-100">加入購物車</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
