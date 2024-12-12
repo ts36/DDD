@@ -61,6 +61,16 @@ try {
         .summary h4 {
             font-weight: bold;
         }
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +78,9 @@ try {
     <h1 class="text-center">購物車內容</h1>
     <?php if (empty($cart_items)): ?>
         <p class="text-center text-danger">您的購物車目前沒有任何商品，快去挑選甜點吧！</p>
+        <div class="text-center mt-4">
+            <a href="index.php" class="btn btn-back">繼續選購</a>
+        </div>
     <?php else: ?>
         <table class="table table-bordered">
             <thead class="table-light">
@@ -106,9 +119,14 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <div class="summary">
-            <h4>總計: $<?= number_format($total_price, 2); ?></h4>
-            <button class="btn btn-success">前往結帳</button>
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <!-- 繼續選購按鈕 -->
+            <a href="index.php" class="btn btn-back">繼續選購</a>
+            <!-- 總計與結帳按鈕 -->
+            <div class="summary">
+                <h4>總計: $<?= number_format($total_price, 2); ?></h4>
+                <button class="btn btn-success">前往結帳</button>
+            </div>
         </div>
     <?php endif; ?>
 </div>
