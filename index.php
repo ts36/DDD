@@ -91,7 +91,7 @@ if (isset($_SESSION['id'])) {
                         <a class="nav-link" href="logout.php">登出</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cart.html">購物車 
+                        <a class="nav-link" href="cart.php">購物車 
                             <span class="cart-badge"><?= $cartCount ?></span>
                         </a>
                     </li>
