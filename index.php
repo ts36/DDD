@@ -1,9 +1,4 @@
 <?php
-// 啟用錯誤報告 (開發階段)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // 啟用 Session
 session_start();
 
@@ -90,7 +85,7 @@ if (isset($_SESSION['id'])) {
                 <li class="nav-item"><a class="nav-link" href="index.php">首頁</a></li>
                 <?php if (isset($_SESSION['id'])): ?>
                     <li class="nav-item">
-                        <span class="nav-link text-success">歡迎: <?= htmlspecialchars($_SESSION['username']); ?></span>
+                        <span class="nav-link text-success">歡迎: <?= htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">登出</a>
@@ -117,14 +112,14 @@ if (isset($_SESSION['id'])) {
         <?php foreach ($products as $product): ?>
             <div class="col-md-4">
                 <div class="card">
-                    <img src="<?= htmlspecialchars($product['image_url']); ?>" class="card-img-top" alt="甜點">
+                    <img src="<?= htmlspecialchars($product['image'] ?? 'https://via.placeholder.com/300'); ?>" class="card-img-top" alt="甜點">
                     <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($product['name']); ?></h5>
-                        <p class="card-text">價格: $<?= htmlspecialchars($product['price']); ?></p>
+                        <h5 class="card-title"><?= htmlspecialchars($product['name'] ?? '未知商品'); ?></h5>
+                        <p class="card-text">價格: $<?= htmlspecialchars($product['price'] ?? '0.00'); ?></p>
                         
                         <?php if (isset($_SESSION['id'])): ?>
                             <form action="cart_process.php" method="POST">
-                                <input type="hidden" name="product_id" value="<?= $product['id']; ?>">
+                                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id'] ?? ''); ?>">
                                 <input type="number" name="quantity" class="form-control mb-2" min="1" value="1" required>
                                 <button type="submit" class="btn btn-custom w-100">加入購物車</button>
                             </form>
