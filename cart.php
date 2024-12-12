@@ -2,7 +2,7 @@
 // 啟用 Session
 session_start();
 
-// 檢查使用者是否已登入
+// 檢查是否登入
 if (!isset($_SESSION['id'])) {
     echo "<script>alert('請先登入後查看購物車！'); window.location.href='login.html';</script>";
     exit();
@@ -21,11 +21,6 @@ try {
     ");
     $stmt->execute(['user_id' => $_SESSION['id']]);
     $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // 測試查詢結果 (除錯)
-    if (empty($cart_items)) {
-        echo "購物車為空，或查詢結果未正確返回";
-    }
 } catch (PDOException $e) {
     die("資料庫錯誤: " . $e->getMessage());
 }
@@ -38,17 +33,46 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>購物車</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff7f0;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .btn-remove {
+            color: white;
+            background-color: #ff6f61;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .btn-remove:hover {
+            background-color: #e55b4d;
+        }
+        .summary {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .summary h4 {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="text-center">購物車</h2>
+<div class="container">
+    <h1 class="text-center">購物車內容</h1>
     <?php if (empty($cart_items)): ?>
-        <p class="text-center">您的購物車是空的，快去挑選甜點吧！</p>
+        <p class="text-center text-danger">您的購物車目前沒有任何商品，快去挑選甜點吧！</p>
     <?php else: ?>
-        <table class="table table-striped mt-4">
-            <thead>
+        <table class="table table-bordered">
+            <thead class="table-light">
                 <tr>
-                    <th>商品名稱</th>
+                    <th>品項名稱</th>
                     <th>單價</th>
                     <th>數量</th>
                     <th>小計</th>
@@ -60,13 +84,21 @@ try {
                 <?php foreach ($cart_items as $item): ?>
                     <tr>
                         <td><?= htmlspecialchars($item['name']); ?></td>
-                        <td>$<?= htmlspecialchars($item['price']); ?></td>
-                        <td><?= htmlspecialchars($item['quantity']); ?></td>
-                        <td>$<?= htmlspecialchars($item['total']); ?></td>
+                        <td>$<?= number_format($item['price'], 2); ?></td>
                         <td>
+                            <!-- 顯示數量，並允許用戶修改 -->
+                            <form action="cart_update.php" method="POST" class="d-flex align-items-center">
+                                <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['cart_id']); ?>">
+                                <input type="number" name="quantity" value="<?= htmlspecialchars($item['quantity']); ?>" class="form-control" style="width: 70px;" min="1" required>
+                                <button type="submit" class="btn btn-primary btn-sm ms-2">更新</button>
+                            </form>
+                        </td>
+                        <td>$<?= number_format($item['total'], 2); ?></td>
+                        <td>
+                            <!-- 移除商品 -->
                             <form action="cart_remove.php" method="POST">
                                 <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['cart_id']); ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">刪除</button>
+                                <button type="submit" class="btn-remove">刪除</button>
                             </form>
                         </td>
                     </tr>
@@ -74,7 +106,7 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <div class="text-end">
+        <div class="summary">
             <h4>總計: $<?= number_format($total_price, 2); ?></h4>
             <button class="btn btn-success">前往結帳</button>
         </div>
