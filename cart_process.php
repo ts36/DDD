@@ -1,6 +1,4 @@
 <?php
-
-// 啟用 Session
 session_start();
 
 // 引入資料庫連線
