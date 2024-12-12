@@ -16,22 +16,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // 從資料庫中檢查使用者資料
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        // 登入成功，設置 Session 並跳轉到首頁
-        $_SESSION['id'] = $user['id'];
-        $_SESSION['email'] = $user['email'];
+        if ($user && password_verify($password, $user['password'])) {
+            // 登入成功，設置 Session，改用 `id`
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
 
-        // 跳轉到首頁 (無任何輸出內容)
-        header("Location: index.html");
-        exit();
-    } else {
-        echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href = 'login.html';</script>";
-        exit();
+            // 跳轉到首頁
+            header("Location: index.html");
+            exit();
+        } else {
+            echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href = 'login.html';</script>";
+            exit();
+        }
+    } catch (PDOException $e) {
+        die("資料庫錯誤: " . $e->getMessage());
     }
+} else {
+    echo "<script>alert('請使用表單提交資料！'); window.location.href = 'login.html';</script>";
+    exit();
 }
 ?>
 
