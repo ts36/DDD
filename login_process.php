@@ -1,8 +1,4 @@
 <?php
-// 啟用錯誤報告 (開發環境)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 // 資料庫連線
 include 'database.php';
@@ -31,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
 
-            // 成功跳轉到首頁
-            echo "<script>alert('登入成功！即將跳轉到首頁'); window.location.href='index.html';</script>";
+            // 成功跳轉到首頁 (無多餘空白)
+            header("Location: index.html");
             exit();
         } else {
             echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href='login.html';</script>";
