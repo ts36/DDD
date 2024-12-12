@@ -21,58 +21,13 @@
                 </tr>
             </thead>
             <tbody id="cart-items">
-                <!-- 購物車項目將由後端產生 -->
+                <!-- 購物車內容由後端渲染 -->
             </tbody>
         </table>
         <div class="text-end">
-            <h4>總額: <span id="total-price">$0</span></h4>
+            <h4>總金額: <span id="total-price">$0</span></h4>
             <button class="btn btn-success">前往結帳</button>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cartItems = document.getElementById("cart-items");
-            const totalPrice = document.getElementById("total-price");
-
-            fetch("/cart_process.php")
-                .then(response => response.json())
-                .then(data => renderCart(data));
-
-            function renderCart(items) {
-                let total = 0;
-                cartItems.innerHTML = "";
-                items.forEach(item => {
-                    const subtotal = item.price * item.quantity;
-                    total += subtotal;
-                    cartItems.innerHTML += `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>$${item.price}</td>
-                            <td>
-                                <input type="number" value="${item.quantity}" min="1" class="form-control cart-quantity" data-id="${item.id}">
-                            </td>
-                            <td>$${subtotal}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm remove-item" data-id="${item.id}">刪除</button>
-                            </td>
-                        </tr>`;
-                });
-                totalPrice.textContent = `$${total}`;
-            }
-
-            cartItems.addEventListener("click", (e) => {
-                if (e.target.classList.contains("remove-item")) {
-                    const productId = e.target.dataset.id;
-                    fetch(`/cart_process.php?delete_id=${productId}`, {
-                        method: "POST"
-                    }).then(() => {
-                        e.target.closest("tr").remove();
-                        alert("商品已刪除！");
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
-
