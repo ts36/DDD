@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($user && password_verify($password, $user['password'])) {
         // 登入成功，設置 Session 並跳轉到首頁
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['id'] = $user['id'];
         $_SESSION['email'] = $user['email'];
 
         // 跳轉到首頁 (無任何輸出內容)
