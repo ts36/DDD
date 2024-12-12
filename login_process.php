@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // 成功跳轉到首頁
             header("Location: index.php");
+            echo "<script>window.location.href='index.php';</script>";
             exit();
         } else {
             echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href='login.html';</script>";
