@@ -1,39 +1,45 @@
 <?php
-// register_process.php
 include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
+    $username = trim($_POST['username']);
     $password = trim($_POST['password']);
+    $email = trim($_POST['email']);
 
-    if (empty($name) || empty($email) || empty($password)) {
-        echo "所有欄位都是必填的！";
-        exit;
+    // 檢查是否為空
+    if (empty($username)  || empty($password || empty($email))) {
+        die("所有欄位都是必填的！");
     }
 
+    // 檢查電子郵件格式
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "無效的電子郵件格式！";
-        exit;
+        die("電子郵件格式無效！");
     }
 
-    // 檢查電子郵件是否已註冊
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
+    // 檢查電子郵件或使用者名稱是否重複
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email OR username = :username");
+    $stmt->execute([
+        'email' => $email,
+        'username' => $username
+    ]);
 
     if ($stmt->rowCount() > 0) {
-        echo "該電子郵件已被註冊！";
-        exit;
+        die("該電子郵件或使用者名稱已被註冊！");
     }
 
-    // 加密密碼並插入資料庫
+    // 加密密碼
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
-    if ($stmt->execute(['name' => $name, 'email' => $email, 'password' => $hashedPassword])) {
+    // 插入資料到資料庫
+    $stmt = $conn->prepare("INSERT INTO users (username, password, email) VALUES (:username, :email, :password)");
+    if ($stmt->execute([
+        'username' => $username,
+        'password' => $hashedPassword,
+        'email' => $email
+    ])) {
         echo "註冊成功！請前往 <a href='login.html'>登入</a>";
     } else {
-        echo "註冊失敗，請稍後再試！";
+        die("註冊失敗，請稍後再試！");
     }
 }
 ?>
