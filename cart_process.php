@@ -21,6 +21,16 @@ if (empty($product_id) || empty($quantity)) {
 }
 
 try {
+    // 確認 product_id 是否存在於 products 表中
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id = :product_id");
+    $stmt->execute(['product_id' => $product_id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$product) {
+        echo "<script>alert('商品不存在，請重新選擇！'); window.location.href='index.php';</script>";
+        exit();
+    }
+
     // 檢查購物車中是否已存在該商品
     $stmt = $conn->prepare("SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id");
     $stmt->execute([
@@ -47,10 +57,9 @@ try {
         ]);
     }
 
-    echo "<script>alert('商品已成功加入購物車！'); window.location.href='cart.html';</script>";
+    echo "<script>alert('商品已成功加入購物車！'); window.location.href='cart.php';</script>";
 } catch (PDOException $e) {
     file_put_contents("error_log.txt", date("Y-m-d H:i:s") . " - 加入購物車錯誤: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
     die("加入購物車失敗，請聯繫管理員！");
 }
 ?>
-
