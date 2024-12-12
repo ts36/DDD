@@ -1,10 +1,12 @@
 <?php
 
-// 資料庫連線
-include 'database.php';
 
 // 啟用 Session
 session_start();
+
+// 資料庫連線
+include 'database.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
@@ -28,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $user['email'];
 
             // 成功跳轉到首頁 (無多餘空白)
-            header("Location: index.php");
+            hearder("Location: index.php");
             exit();
         } else {
             echo "<script>alert('登入失敗，請檢查您的電子郵件與密碼！'); window.location.href='login.html';</script>";
