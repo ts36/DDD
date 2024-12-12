@@ -2,7 +2,7 @@
 // 啟用 Session
 session_start();
 
-// 檢查是否登入
+// 檢查使用者是否已登入
 if (!isset($_SESSION['id'])) {
     echo "<script>alert('請先登入後查看購物車！'); window.location.href='login.html';</script>";
     exit();
@@ -21,6 +21,11 @@ try {
     ");
     $stmt->execute(['user_id' => $_SESSION['id']]);
     $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 測試查詢結果 (除錯)
+    if (empty($cart_items)) {
+        echo "購物車為空，或查詢結果未正確返回";
+    }
 } catch (PDOException $e) {
     die("資料庫錯誤: " . $e->getMessage());
 }
