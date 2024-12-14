@@ -28,6 +28,7 @@ try {
     ");
     $stmt->execute(['user_id' => $_SESSION['id']]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (PDOException $e) {
     die("資料庫錯誤: " . $e->getMessage());
 }
@@ -40,6 +41,21 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>訂單記錄</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -68,6 +84,11 @@ try {
             </tbody>
         </table>
     <?php endif; ?>
+
+    <!-- 繼續選購按鈕 -->
+    <div class="text-center mt-4">
+        <a href="index.php" class="btn-back">回到首頁繼續選購</a>
+    </div>
 </div>
 </body>
 </html>
