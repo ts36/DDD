@@ -14,8 +14,11 @@ include 'database.php';
 // 查詢訂單記錄
 try {
     $stmt = $conn->prepare("
-        SELECT o.id AS order_id, o.total_price, o.created_at, 
-               GROUP_CONCAT(p.name, ' (x', od.quantity, ')') AS products
+        SELECT 
+            o.id AS order_id, 
+            o.total_price, 
+            o.created_at, 
+            STRING_AGG(CONCAT(p.name, ' (x', od.quantity, ')'), ', ') AS products
         FROM orders o
         JOIN order_details od ON o.id = od.order_id
         JOIN products p ON od.product_id = p.id
