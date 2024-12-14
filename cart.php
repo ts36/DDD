@@ -125,8 +125,9 @@ try {
             <!-- 總計與結帳按鈕 -->
             <div class="summary">
                 <h4>總計: $<?= number_format($total_price, 2); ?></h4>
-                <button class="btn btn-success">前往結帳</button>
+                <a href="checkout.php" class="btn btn-success">前往結帳</a>
             </div>
+
         </div>
     <?php endif; ?>
 </div>
