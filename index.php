@@ -112,7 +112,7 @@ if (isset($_SESSION['id'])) {
         <?php foreach ($products as $product): ?>
             <div class="col-md-4">
                 <div class="card">
-                <img src="uploads/<?= htmlspecialchars($product['image'] ?? 'default.jpg'); ?>" class="card-img-top" alt="甜點">
+                <img src="<?= htmlspecialchars(strpos($product['image'], 'http') === 0 ? $product['image'] : 'uploads/' . $product['image']); ?>" class="card-img-top" alt="甜點">
                 <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($product['name'] ?? '未知商品'); ?></h5>
                         <p class="card-text">價格: $<?= htmlspecialchars($product['price'] ?? '0.00'); ?></p>
