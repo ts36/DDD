@@ -79,7 +79,7 @@ if (isset($_SESSION['id'])) {
 <body>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="index.php">🍰 可愛甜點店</a>
+        <a class="navbar-brand" href="index.php">🍰 Dessert Shop</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="index.php">首頁</a></li>
@@ -112,8 +112,8 @@ if (isset($_SESSION['id'])) {
         <?php foreach ($products as $product): ?>
             <div class="col-md-4">
                 <div class="card">
-                    <img src="<?= htmlspecialchars($product['image'] ?? 'https://via.placeholder.com/300'); ?>" class="card-img-top" alt="甜點">
-                    <div class="card-body">
+                <img src="uploads/<?= htmlspecialchars($product['image'] ?? 'default.jpg'); ?>" class="card-img-top" alt="甜點">
+                <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($product['name'] ?? '未知商品'); ?></h5>
                         <p class="card-text">價格: $<?= htmlspecialchars($product['price'] ?? '0.00'); ?></p>
                         
