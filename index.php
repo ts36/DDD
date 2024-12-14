@@ -96,7 +96,7 @@ if (isset($_SESSION['id'])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="orders.html">訂單記錄</a>
+                        <a class="nav-link" href="orders.php">訂單記錄</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="login.html">登入 / 註冊</a></li>
