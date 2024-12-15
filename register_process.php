@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // 插入資料到資料庫
-    $stmt = $conn->prepare("INSERT INTO users (username,  password, email) VALUES (:username, :password, :email)");
+    $stmt = $conn->prepare("INSERT INTO users (username,  password, email) VALUES (:username, :email, :password)");
     if ($stmt->execute([
         'username' => $username,
-        'password' => $hashedPassword,
-        'email' => $email
+        'email' => $email,
+        'password' => $hashedPassword
     ])) {
         echo "註冊成功！請前往 <a href='login.html'>登入</a>";
     } else {
