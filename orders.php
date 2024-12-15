@@ -24,7 +24,7 @@ try {
         JOIN products p ON od.product_id = p.id
         WHERE o.user_id = :user_id
         GROUP BY o.id, o.total_price, o.created_at
-        ORDER BY o.created_at DESC
+        ORDER BY o.created_at ASC
     ");
     $stmt->execute(['user_id' => $_SESSION['id']]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,51 +44,23 @@ try {
     <style>
         body {
             background-color: #fff7f0;
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
-        }
-        h2 {
-            color: #ff6f61;
-            font-weight: bold;
-        }
-        .table {
-            border: 2px solid #ffcad4;
-            border-radius: 10px;
-            overflow: hidden;
+            font-family: 'Arial', sans-serif;
         }
         .table thead {
             background-color: #ffcad4;
             color: #fff;
         }
-        .table tbody tr {
+        .table tbody tr:nth-child(odd) {
             background-color: #ffe4e1;
         }
-        .table tbody tr:hover {
+        .table tbody tr:nth-child(even) {
             background-color: #ffd1d1;
-        }
-        .btn-back {
-            background-color: #ff6f61;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .btn-back:hover {
-            background-color: #ff3b2f;
-            color: white;
-        }
-        .container {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            background-color: #fff;
         }
     </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="text-center">🍓 訂單記錄 🍓</h2>
+    <h2 class="text-center">🍰 我的訂單記錄 🍰</h2>
     <?php if (empty($orders)): ?>
         <p class="text-center text-danger">目前沒有訂單記錄。</p>
     <?php else: ?>
@@ -102,9 +74,12 @@ try {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $order): ?>
+                <?php 
+                $orderCount = 1; // 從 1 開始編號
+                foreach ($orders as $order): 
+                ?>
                     <tr>
-                        <td><?= htmlspecialchars($order['order_id']); ?></td>
+                        <td><?= $orderCount++; ?></td> <!-- 使用前端重新編號 -->
                         <td><?= htmlspecialchars($order['products']); ?></td>
                         <td>$<?= number_format($order['total_price'], 2); ?></td>
                         <td><?= htmlspecialchars($order['created_at']); ?></td>
@@ -114,9 +89,9 @@ try {
         </table>
     <?php endif; ?>
 
-    <!-- 繼續選購按鈕 -->
+    <!-- 回到首頁按鈕 -->
     <div class="text-center mt-4">
-        <a href="index.php" class="btn-back">🍰 回到首頁繼續選購</a>
+        <a href="index.php" class="btn btn-primary">回到首頁繼續選購</a>
     </div>
 </div>
 </body>
